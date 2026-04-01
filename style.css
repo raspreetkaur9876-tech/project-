@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+    font-family: Arial;   /* normal text */
+    background: linear-gradient(to right, #141e30, #243b55);
+    color: white;
+}
+
+/* ONLY HEADING (Bold + Curvy) */
+h1 {
+    font-weight: bold;
+    font-size: 45px;
+    font-family: "Brush Script MT", "Segoe Script", cursive;
+    color: yellow;
+    text-shadow: 2px 2px 5px black;
+}
+
+/* Text area */
+textarea {
+    width: 300px;
+    height: 150px;
+    padding: 10px;
+    border-radius: 10px;
+    font-family: Arial;   /* normal text */
+}
+
+/* Button */
+button {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: darkgreen;
+}
