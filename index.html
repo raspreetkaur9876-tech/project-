@@ -3,27 +3,137 @@
 <head>
     <title>Spam Email Detector</title>
 
-    <!-- Connect CSS -->
-    <link rel="stylesheet" href="style.css">
+    <!-- Icons Library -->
+    <script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: teal;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 420px;
+            box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+
+            /* Animation */
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: teal;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: teal;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: darkcyan;
+            transform: scale(1.05);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            transition: 0.5s;
+        }
+
+        .icon {
+            font-size: 50px;
+            color: teal;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 
 <body>
 
+<div class="container">
+
+    <!-- Icon -->
+    <div class="icon">📧</div>
+
     <h1>Spam Email Detector</h1>
 
-    <!-- Input box -->
-    <textarea id="emailText" placeholder="Enter email here"></textarea>
+    <input type="text" id="email" placeholder="Enter email text">
 
-    <br><br>
+    <br>
 
-    <!-- Button -->
-    <button onclick="checkSpam()">Check Spam</button>
+    <button onclick="checkSpam()">Check</button>
 
-    <!-- Result -->
-    <h2 id="result"></h2>
+    <p id="result"></p>
+</div>
 
-    <!-- Connect JavaScript -->
-    <script src="script.js"></script>
+<script>
+function checkSpam() {
+    let emailText = document.getElementById("email").value;
+
+    fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email: emailText })
+    })
+    .then(res => res.json())
+    .then(data => {
+        let result = document.getElementById("result");
+
+        result.innerText = "Result: " + data.prediction;
+
+        // Animation effect based on result
+        if (data.prediction === "Spam") {
+            result.style.color = "red";
+            result.innerHTML = "🚫 Spam Detected!";
+        } else {
+            result.style.color = "green";
+            result.innerHTML = "✅ Not Spam";
+        }
+    })
+    .catch(error => {
+        document.getElementById("result").innerText =
+            "Error connecting to server";
+    });
+}
+</script>
 
 </body>
 </html>
